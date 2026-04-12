@@ -1,0 +1,45 @@
+import random
+
+def gen_pass(pass_length):
+    elements = "+-/*!&$#?=@<>123456789"
+    password = ""
+    for i in range(pass_length):
+        password += random.choice(elements)
+    return password
+
+import telebot
+
+bot = telebot.TeleBot("8754027648:AAFJT-3UmuFIYGPVvFk4xlb_VnPW97mRb7M")
+
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, f"Привет! Я бот Я бот {bot.get_me().first_name}. Напиши команду /hello для приветствия, /bye для прощания, /pass для генерации пароля, /photo для отправки фото, /where для отправки геолокации, /heh!")
+
+@bot.message_handler(commands=['hello'])
+def send_hello(message):
+    bot.reply_to(message, "Привет! Как дела?")
+
+@bot.message_handler(commands=['bye'])
+def send_bye(message):
+    bot.reply_to(message, "Пока! Удачи!")
+
+@bot.message_handler(commands=['pass'])
+def send_password(message):
+    password = gen_pass(10)
+    bot.reply_to(message, f"Вот твой сгенерированный пароль: {password}")
+
+@bot.message_handler(commands=['photo'])
+def send_photo(message):
+    bot.send_photo(message.chat.id, "https://i.pinimg.com/originals/77/f0/1c/77f01c94cf307c5d56a35f18cc8522ec.jpg", caption="Привет! Это фото от бота 📸")
+
+@bot.message_handler(commands=['where'])
+def send_my_location(message):
+    bot.send_location(message.chat.id, latitude=55.749037, longitude=37.539077)
+    bot.send_message(message.chat.id, "📍 Вот эта позиция на карте!")
+
+@bot.message_handler(commands=['heh'])
+def send_heh(message):
+    count_heh = int(message.text.split()[1]) if len(message.text.split()) > 1 else 5
+    bot.reply_to(message, "he" * count_heh)
+
+bot.polling()
