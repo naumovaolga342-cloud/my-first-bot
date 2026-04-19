@@ -17,7 +17,7 @@ def get_duck_image_url():
 
 import telebot
 
-bot = telebot.TeleBot("8754027648:AAFJT-3UmuFIYGPVvFk4xlb_VnPW97mRb7M")
+bot = telebot.TeleBot("")
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
