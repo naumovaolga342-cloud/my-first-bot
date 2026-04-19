@@ -21,7 +21,7 @@ bot = telebot.TeleBot("8754027648:AAFJT-3UmuFIYGPVvFk4xlb_VnPW97mRb7M")
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, f"Привет! Я бот Я бот {bot.get_me().first_name}. Напиши команду /hello для приветствия; /bye для прощания; /pass для генерации пароля; /photo для отправки фото; /where для отправки геолокации; /heh; /mem1, /mem2 или /mem3 для отправки мемов, /memchik для отправки рандомного мемчика, /duck для отправки отправляет URL изображения утки или /memasik для отправки моего собственного мемасика!")
+    bot.reply_to(message, f"Привет! Я бот Я бот {bot.get_me().first_name}. Напиши команду /hello для приветствия; /bye для прощания; /pass для генерации пароля; /photo для отправки фото; /where для отправки геолокации; /heh; /mem1, /mem2 или /mem3 для отправки мемов, /memchik для отправки рандомного мемчика, /duck для отправки рандомного URL адреса изображения утки или /memasik для отправки моего собственного мемасика!")
 
 @bot.message_handler(commands=['hello'])
 def send_hello(message):
