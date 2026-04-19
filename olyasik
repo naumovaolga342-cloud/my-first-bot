@@ -1,4 +1,6 @@
 import random
+import os
+import requests
 
 def gen_pass(pass_length):
     elements = "+-/*!&$#?=@<>123456789"
@@ -7,13 +9,19 @@ def gen_pass(pass_length):
         password += random.choice(elements)
     return password
 
+def get_duck_image_url():    
+        url = 'https://random-d.uk/api/random'
+        res = requests.get(url)
+        data = res.json()
+        return data['url']
+
 import telebot
 
 bot = telebot.TeleBot("8754027648:AAFJT-3UmuFIYGPVvFk4xlb_VnPW97mRb7M")
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, f"Привет! Я бот Я бот {bot.get_me().first_name}. Напиши команду /hello для приветствия, /bye для прощания, /pass для генерации пароля, /photo для отправки фото, /where для отправки геолокации, /heh!")
+    bot.reply_to(message, f"Привет! Я бот Я бот {bot.get_me().first_name}. Напиши команду /hello для приветствия; /bye для прощания; /pass для генерации пароля; /photo для отправки фото; /where для отправки геолокации; /heh; /mem1, /mem2 или /mem3 для отправки мемов, /memchik для отправки рандомного мемчика, /duck для отправки отправляет URL изображения утки или /memasik для отправки моего собственного мемасика!")
 
 @bot.message_handler(commands=['hello'])
 def send_hello(message):
@@ -41,5 +49,36 @@ def send_my_location(message):
 def send_heh(message):
     count_heh = int(message.text.split()[1]) if len(message.text.split()) > 1 else 5
     bot.reply_to(message, "he" * count_heh)
+
+@bot.message_handler(commands=['mem1'])
+def send_mem(message):
+    with open('images/mem1.jpg', 'rb') as f:
+        bot.send_photo(message.chat.id, f)
+
+@bot.message_handler(commands=['mem2'])
+def send_mem(message):
+    with open('images/mem2.jpg', 'rb') as f:
+        bot.send_photo(message.chat.id, f)
+
+@bot.message_handler(commands=['mem3'])
+def send_mem(message):
+    with open('images/mem3.jpg', 'rb') as f:
+        bot.send_photo(message.chat.id, f)
+
+@bot.message_handler(commands=['memchik'])
+def send_mem(message):
+    img_name = random.choice(os.listdir('images2'))
+    with open(f'images2/{img_name}', 'rb') as f:
+        bot.send_photo(message.chat.id, f)
+
+@bot.message_handler(commands=['duck'])
+def duck(message):
+    image_url = get_duck_image_url()
+    bot.reply_to(message, image_url)
+
+@bot.message_handler(commands=['memasik'])
+def send_mem(message):
+    with open('images/memasik.jpg', 'rb') as f:
+        bot.send_photo(message.chat.id, f)
 
 bot.polling()
